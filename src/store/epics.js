@@ -144,13 +144,26 @@ const createNewPlaylist = (action$, state$) =>
           name: 'Aliina-generated-playlist'
         }
       }).pipe(
+        mergeMap(({ response }) => {
+          console.log(state$.value.newPlaylist);
+          return ajax({
+            url: `https://api.spotify.com/v1/playlists/${response.id}/tracks`,
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${state$.value.user.token}`,
+              'Content-Type': 'application/json'
+            },
+            body: {
+              uris: state$.value.newPlaylist.content.map(item => item.uri)
+            }
+          });
+        }),
         map(() => createNewPlaylistFulfilled()),
         catchError(error => of(fetchFailed(error.xhr.response)))
       )
     )
   );
 
-// POST https://api.spotify.com/v1/users/{user_id}/playlists
 // POST https://api.spotify.com/v1/playlists/{playlist_id}/tracks
 
 export default combineEpics(

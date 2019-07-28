@@ -30,7 +30,7 @@ const Playlist = ({
 Playlist.propTypes = {};
 
 const mapStateToProps = ({ newPlaylist }) => ({
-  playlist: newPlaylist
+  playlist: newPlaylist.content
 });
 
 const mapDispatchToProps = dispatch => ({

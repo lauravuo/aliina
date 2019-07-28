@@ -3,7 +3,10 @@ export default {
     pressed: false
   },
   playlists: null,
-  newPlaylist: null,
+  newPlaylist: {
+    originalId: null,
+    content: null
+  },
   user: {
     token: null,
     id: null
