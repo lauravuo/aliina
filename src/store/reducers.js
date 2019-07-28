@@ -5,7 +5,8 @@ import {
   BUTTON_PRESSED,
   SET_TOKEN,
   FETCH_PLAYLISTS_FULFILLED,
-  FETCH_PLAYLIST_TRACKS_FULFILLED
+  FETCH_PLAYLIST_TRACKS_FULFILLED,
+  FETCH_USER_ID_FULFILLED
 } from './actions';
 import initialState from './initial-state';
 
@@ -21,7 +22,9 @@ export const button = (state = initialState.button, action) => {
 export const user = (state = initialState.user, action) => {
   switch (action.type) {
     case SET_TOKEN:
-      return action.payload;
+      return { token: action.payload };
+    case FETCH_USER_ID_FULFILLED:
+      return { ...state, ...action.payload };
     default:
       return state;
   }

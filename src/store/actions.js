@@ -33,3 +33,10 @@ export const fetchPlaylistTracksFulfilled = response => ({
   type: FETCH_PLAYLIST_TRACKS_FULFILLED,
   payload: response
 });
+
+export const FETCH_USER_ID_FULFILLED = 'FETCH_USER_ID_FULFILLED';
+
+export const fetchUserIdFulfilled = response => ({
+  type: FETCH_USER_ID_FULFILLED,
+  payload: response
+});

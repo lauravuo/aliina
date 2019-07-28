@@ -17,7 +17,8 @@ import {
   fetchPlaylistsFulfilled,
   fetchPlaylistTracksFulfilled,
   fetchFailed,
-  FETCH_PLAYLIST_TRACKS
+  FETCH_PLAYLIST_TRACKS,
+  fetchUserIdFulfilled
 } from './actions';
 
 const spotifyScope =
@@ -35,14 +36,14 @@ const initUserEpic = (action$, state$) =>
     ofType(LOCATION_CHANGE),
     switchMap(() => {
       const state = state$.value;
-      if (!state.user && !state.router.location.hash) {
+      if (!state.user.token && !state.router.location.hash) {
         window.location = `https://accounts.spotify.com/authorize?client_id=${
           CONFIG.spotify.clientId
         }&redirect_uri=${encodeURI(
           'http://localhost:8080/'
         )}&scope=${spotifyScope}&response_type=token&state=123`;
       } else if (
-        !state.user &&
+        !state.user.token &&
         !state.playlists &&
         state.router.location.hash
       ) {
@@ -60,7 +61,7 @@ const fetchPlaylistsEpic = (action$, state$) =>
         url: 'https://api.spotify.com/v1/me/playlists',
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${state$.value.user}`
+          Authorization: `Bearer ${state$.value.user.token}`
         }
       }).pipe(
         map(({ response }) => fetchPlaylistsFulfilled(response)),
@@ -77,7 +78,7 @@ const fetchPlaylistTracksEpic = (action$, state$) =>
         url: `https://api.spotify.com/v1/playlists/${action.payload}/tracks`,
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${state$.value.user}`
+          Authorization: `Bearer ${state$.value.user.token}`
         }
       }).pipe(
         map(({ response: { items } }) => items),
@@ -88,7 +89,7 @@ const fetchPlaylistTracksEpic = (action$, state$) =>
                 url: `https://api.spotify.com/v1/albums/${id}/tracks`,
                 method: 'GET',
                 headers: {
-                  Authorization: `Bearer ${state$.value.user}`
+                  Authorization: `Bearer ${state$.value.user.token}`
                 }
               }).pipe(
                 map(({ response }) => ({
@@ -108,8 +109,23 @@ const fetchPlaylistTracksEpic = (action$, state$) =>
     )
   );
 
-// Fetch album for track -> select random track
-// GET https://api.spotify.com/v1/albums/{id}/tracks
+const fetchUserId = (action$, state$) =>
+  action$.pipe(
+    ofType(SET_TOKEN),
+    mergeMap(() =>
+      ajax({
+        url: 'https://api.spotify.com/v1/me',
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${state$.value.user.token}`
+        }
+      }).pipe(
+        map(({ response }) => fetchUserIdFulfilled(response)),
+        catchError(error => of(fetchFailed(error.xhr.response)))
+      )
+    )
+  );
+
 // POST https://api.spotify.com/v1/users/{user_id}/playlists
 // POST https://api.spotify.com/v1/playlists/{playlist_id}/tracks
 // GET https://api.spotify.com/v1/me
@@ -117,5 +133,6 @@ const fetchPlaylistTracksEpic = (action$, state$) =>
 export default combineEpics(
   initUserEpic,
   fetchPlaylistsEpic,
-  fetchPlaylistTracksEpic
+  fetchPlaylistTracksEpic,
+  fetchUserId
 );

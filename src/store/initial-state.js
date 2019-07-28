@@ -4,6 +4,9 @@ export default {
   },
   playlists: null,
   newPlaylist: null,
-  user: null,
+  user: {
+    token: null,
+    id: null
+  },
   error: null
 };
