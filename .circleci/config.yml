@@ -1,0 +1,47 @@
+version: 2
+jobs:
+
+  test:
+    docker:
+      - image: circleci/node:10.16.0
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - npm-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+
+      - run: npm ci
+      - run: npm run test
+
+      - save_cache:
+          paths:
+            - $HOME/.npm
+          key: npm-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+
+  automerge:
+    docker:
+      - image: circleci/node:10.16.0
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - npm-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run: npm ci
+      - run:
+          name: Merge greenkeeper branch
+          command: npm run ci:automerge
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
+      - automerge:
+          requires:
+            - test
+          filters:
+            branches:
+              only: /greenkeeper\S*/

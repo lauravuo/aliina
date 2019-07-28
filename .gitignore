@@ -1,0 +1,6 @@
+node_modules
+build
+.envrc
+.DS_Store
+coverage/
+e2e/reports

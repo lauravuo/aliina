@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Button not pressed 1`] = `
+<button
+  className="style__Container-sc-1dzpyiu-0 dMybpA"
+  onClick={[Function]}
+  type="button"
+>
+  <img
+    alt="Button icon"
+    src={[Function]}
+  />
+</button>
+`;
+
+exports[`Storyshots Button pressed 1`] = `
+<button
+  className="style__Container-sc-1dzpyiu-0 cfRxvo"
+  onClick={[Function]}
+  type="button"
+>
+  <img
+    alt="Button icon"
+    src={[Function]}
+  />
+</button>
+`;
