@@ -3,17 +3,28 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Tracks from '../components/tracks';
-import { fetchPlaylistTracks } from '../store/actions';
+import { fetchPlaylistTracks, createNewPlaylist } from '../store/actions';
 
 // match.params.id
-const Playlist = ({ playlist, match, doFetchPlaylistTracks }) => {
+const Playlist = ({
+  playlist,
+  match,
+  doFetchPlaylistTracks,
+  doCreateNewPlaylist
+}) => {
   useEffect(() => {
     if (!playlist) {
       doFetchPlaylistTracks(match.params.id);
     }
   });
   console.log(playlist);
-  return <div>{playlist && <Tracks tracks={playlist} />}</div>;
+  return (
+    <div>
+      {playlist && (
+        <Tracks tracks={playlist} onCreatePressed={doCreateNewPlaylist} />
+      )}
+    </div>
+  );
 };
 
 Playlist.propTypes = {};
@@ -23,7 +34,8 @@ const mapStateToProps = ({ newPlaylist }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  doFetchPlaylistTracks: id => dispatch(fetchPlaylistTracks(id))
+  doFetchPlaylistTracks: id => dispatch(fetchPlaylistTracks(id)),
+  doCreateNewPlaylist: () => dispatch(createNewPlaylist())
 });
 
 export default connect(

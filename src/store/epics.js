@@ -18,11 +18,14 @@ import {
   fetchPlaylistTracksFulfilled,
   fetchFailed,
   FETCH_PLAYLIST_TRACKS,
-  fetchUserIdFulfilled
+  fetchUserIdFulfilled,
+  CREATE_NEW_PLAYLIST,
+  createNewPlaylistFulfilled
 } from './actions';
 
-const spotifyScope =
-  'user-read-private%20user-read-email%20playlist-read-collaborative%20playlist-read-private';
+const spotifyScope = encodeURI(
+  'user-read-private,user-read-email,playlist-read-collaborative,playlist-read-private,playlist-modify-private,playlist-modify-public'
+);
 
 const parseHash = hash => {
   const parts = hash.replace('#', '').split('&');
@@ -126,13 +129,34 @@ const fetchUserId = (action$, state$) =>
     )
   );
 
+const createNewPlaylist = (action$, state$) =>
+  action$.pipe(
+    ofType(CREATE_NEW_PLAYLIST),
+    mergeMap(() =>
+      ajax({
+        url: `https://api.spotify.com/v1/users/${state$.value.user.id}/playlists`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${state$.value.user.token}`,
+          'Content-Type': 'application/json'
+        },
+        body: {
+          name: 'Aliina-generated-playlist'
+        }
+      }).pipe(
+        map(() => createNewPlaylistFulfilled()),
+        catchError(error => of(fetchFailed(error.xhr.response)))
+      )
+    )
+  );
+
 // POST https://api.spotify.com/v1/users/{user_id}/playlists
 // POST https://api.spotify.com/v1/playlists/{playlist_id}/tracks
-// GET https://api.spotify.com/v1/me
 
 export default combineEpics(
   initUserEpic,
   fetchPlaylistsEpic,
   fetchPlaylistTracksEpic,
-  fetchUserId
+  fetchUserId,
+  createNewPlaylist
 );

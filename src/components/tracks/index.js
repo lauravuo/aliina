@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Tracks = ({ tracks }) => (
+const Tracks = ({ tracks, onCreatePressed }) => (
   <div>
     <h2>New playlist</h2>
     {tracks.map((track, index) => (
@@ -18,6 +18,9 @@ const Tracks = ({ tracks }) => (
         )}
       </div>
     ))}
+    <button type="button" onClick={onCreatePressed}>
+      Save playlist
+    </button>
   </div>
 );
 
