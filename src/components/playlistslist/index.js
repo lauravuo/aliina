@@ -1,11 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { Container, Row } from './style';
+
 const PlaylistsList = ({ lists }) => (
   <div>
-    {lists.map(list => (
-      <div key={list.id}><Link to={`/playlist/${list.id}`}>{list.name}</Link></div>
-    ))}
+    <p> Select playlist below:</p>
+    <Container>
+      {lists.map(list => (
+        <Link key={list.id} to={`/playlist/${list.id}`}>
+          <Row>{list.name}</Row>
+        </Link>
+      ))}
+    </Container>
   </div>
 );
 

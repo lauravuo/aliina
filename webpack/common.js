@@ -24,11 +24,8 @@ module.exports = {
         ]
       },
       {
-        test: /\.svg/,
-        use: {
-          loader: 'svg-url-loader',
-          options: {}
-        }
+        test: /\.svg$/,
+        use: ['@svgr/webpack', 'url-loader']
       }
     ]
   },
@@ -41,6 +38,6 @@ module.exports = {
       title: 'Aliina',
       template: './webpack/template.html'
     }),
-    new webpack.DefinePlugin({ CONFIG: JSON.stringify(require("config")) })
+    new webpack.DefinePlugin({ CONFIG: JSON.stringify(require('config')) })
   ]
 };

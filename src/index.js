@@ -12,6 +12,7 @@ import Error from './containers/error';
 import Home from './containers/home';
 import Playlist from './containers/playlist';
 import Page from './containers/page';
+import { GlobalStyle } from './style';
 
 const store = configureStore();
 
@@ -19,6 +20,7 @@ const Root = () => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <div>
+        <GlobalStyle />
         <Error />
         <NavBar />
         <Switch>
