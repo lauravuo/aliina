@@ -2,23 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Button from '../components/button';
+import Spinner from '../components/spinner';
 import PlaylistsList from '../components/playlistslist';
 import { buttonPress } from '../store/actions';
 
-const Home = ({ playlists, doButtonPress }) => (
-  <div>
-    {playlists && <PlaylistsList lists={playlists} />}
-  </div>
+const Home = ({ playlists }) => (
+  <div>{playlists ? <PlaylistsList lists={playlists} /> : <Spinner />}</div>
 );
 
 Home.propTypes = {
-  buttonIsPressed: PropTypes.bool.isRequired,
-  doButtonPress: PropTypes.func.isRequired
+  playlists: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
-const mapStateToProps = ({ playlists }) => ({
-  playlists
+const mapStateToProps = ({ playlists: { content } }) => ({
+  playlists: content
 });
 
 const mapDispatchToProps = dispatch => ({

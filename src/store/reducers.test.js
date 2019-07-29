@@ -1,15 +1,14 @@
-import { button as reducer } from './reducers';
+import { user as reducer } from './reducers';
 import initialState from './initial-state';
-import { buttonPress } from './actions';
+import { setToken } from './actions';
 
-describe('button reducer', () => {
+describe('user reducer', () => {
   it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual(initialState.button);
+    expect(reducer(undefined, {})).toEqual(initialState.user);
   });
-  it('should toggle pressed state', () => {
-    expect(reducer(undefined, buttonPress())).toEqual({
-      ...initialState.button,
-      pressed: true
+  it('should set token', () => {
+    expect(reducer(undefined, setToken('token'))).toEqual({
+      token: 'token'
     });
   });
 });

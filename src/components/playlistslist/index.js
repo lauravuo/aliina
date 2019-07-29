@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { Container, Row } from './style';
@@ -15,5 +16,9 @@ const PlaylistsList = ({ lists }) => (
     </Container>
   </div>
 );
+
+PlaylistsList.propTypes = {
+  lists: PropTypes.arrayOf(PropTypes.object).isRequired
+};
 
 export default PlaylistsList;

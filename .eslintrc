@@ -4,6 +4,9 @@
     "browser": true,
     "jest": true
   },
+  "globals": {
+    "CONFIG": "readonly"
+  },
   "plugins": ["prettier", "react"],
   "rules": {
     "prettier/prettier": [

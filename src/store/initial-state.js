@@ -1,8 +1,8 @@
 export default {
-  button: {
-    pressed: false
+  playlists: {
+    loading: true,
+    content: null
   },
-  playlists: null,
   newPlaylist: {
     originalId: null,
     content: null

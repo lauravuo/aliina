@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Tracks = ({ tracks, onCreatePressed }) => (
   <div>
@@ -23,5 +24,10 @@ const Tracks = ({ tracks, onCreatePressed }) => (
     </button>
   </div>
 );
+
+Tracks.propTypes = {
+  tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onCreatePressed: PropTypes.func.isRequired
+};
 
 export default Tracks;

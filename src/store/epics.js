@@ -1,13 +1,6 @@
 import { empty, of, from } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
-import {
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-  catchError,
-  toArray
-} from 'rxjs/operators';
+import { map, mergeMap, switchMap, catchError, toArray } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
 import { LOCATION_CHANGE } from 'connected-react-router';
 
@@ -47,7 +40,7 @@ const initUserEpic = (action$, state$) =>
         )}&scope=${spotifyScope}&response_type=token&state=123`;
       } else if (
         !state.user.token &&
-        !state.playlists &&
+        !state.playlists.content &&
         state.router.location.hash
       ) {
         return of(setToken(parseHash(state.router.location.hash)));
@@ -145,7 +138,6 @@ const createNewPlaylist = (action$, state$) =>
         }
       }).pipe(
         mergeMap(({ response }) => {
-          console.log(state$.value.newPlaylist);
           return ajax({
             url: `https://api.spotify.com/v1/playlists/${response.id}/tracks`,
             method: 'POST',
@@ -163,8 +155,6 @@ const createNewPlaylist = (action$, state$) =>
       )
     )
   );
-
-// POST https://api.spotify.com/v1/playlists/{playlist_id}/tracks
 
 export default combineEpics(
   initUserEpic,

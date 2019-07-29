@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import Spinner from '../components/spinner';
 import Tracks from '../components/tracks';
 import { fetchPlaylistTracks, createNewPlaylist } from '../store/actions';
 
@@ -17,17 +18,23 @@ const Playlist = ({
       doFetchPlaylistTracks(match.params.id);
     }
   });
-  console.log(playlist);
   return (
     <div>
-      {playlist && (
+      {playlist ? (
         <Tracks tracks={playlist} onCreatePressed={doCreateNewPlaylist} />
+      ) : (
+        <Spinner />
       )}
     </div>
   );
 };
 
-Playlist.propTypes = {};
+Playlist.propTypes = {
+  playlist: PropTypes.arrayOf(PropTypes.object).isRequired,
+  match: PropTypes.object.isRequired,
+  doFetchPlaylistTracks: PropTypes.func.isRequired,
+  doCreateNewPlaylist: PropTypes.func.isRequired
+};
 
 const mapStateToProps = ({ newPlaylist }) => ({
   playlist: newPlaylist.content
