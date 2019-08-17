@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Button } from './style';
+
 const Tracks = ({ tracks, onCreatePressed }) => (
   <div>
-    <h2>New playlist</h2>
+    <h2>{`Aliina ${new Date().toLocaleDateString()}`}</h2>
     {tracks.map((track, index) => (
-      <div>
+      <div key={track.id}>
         {track && (
           <div>
             <span>{`${index} `}</span>
             <span>
               {track.artists.map(artist => (
-                <span>{`${artist.name} `}</span>
+                <span key={artist.id}>{`${artist.name} `}</span>
               ))}
             </span>
             <span>{track.name}</span>
@@ -19,9 +21,14 @@ const Tracks = ({ tracks, onCreatePressed }) => (
         )}
       </div>
     ))}
-    <button type="button" onClick={onCreatePressed}>
+    <Button
+      type="button"
+      onClick={() =>
+        onCreatePressed(`Aliina ${new Date().toLocaleDateString()}`)
+      }
+    >
       Save playlist
-    </button>
+    </Button>
   </div>
 );
 

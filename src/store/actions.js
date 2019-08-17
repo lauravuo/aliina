@@ -43,12 +43,14 @@ export const fetchUserIdFulfilled = response => ({
 
 export const CREATE_NEW_PLAYLIST = 'CREATE_NEW_PLAYLIST';
 
-export const createNewPlaylist = () => ({
-  type: CREATE_NEW_PLAYLIST
+export const createNewPlaylist = payload => ({
+  type: CREATE_NEW_PLAYLIST,
+  payload
 });
 
 export const CREATE_NEW_PLAYLIST_FULFILLED = 'CREATE_NEW_PLAYLIST_FULFILLED';
 
-export const createNewPlaylistFulfilled = () => ({
-  type: CREATE_NEW_PLAYLIST_FULFILLED
+export const createNewPlaylistFulfilled = payload => ({
+  type: CREATE_NEW_PLAYLIST_FULFILLED,
+  payload
 });

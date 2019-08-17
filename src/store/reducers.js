@@ -6,7 +6,8 @@ import {
   FETCH_PLAYLISTS_FULFILLED,
   FETCH_PLAYLIST_TRACKS_FULFILLED,
   FETCH_USER_ID_FULFILLED,
-  FETCH_PLAYLIST_TRACKS
+  FETCH_PLAYLIST_TRACKS,
+  CREATE_NEW_PLAYLIST_FULFILLED
 } from './actions';
 import initialState from './initial-state';
 
@@ -49,6 +50,12 @@ export const newPlaylist = (state = initialState.newPlaylist, action) => {
       return {
         ...state,
         content: selected
+      };
+    }
+    case CREATE_NEW_PLAYLIST_FULFILLED: {
+      return {
+        ...state,
+        saved: true
       };
     }
     default:

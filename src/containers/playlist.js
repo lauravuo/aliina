@@ -30,10 +30,14 @@ const Playlist = ({
 };
 
 Playlist.propTypes = {
-  playlist: PropTypes.arrayOf(PropTypes.object).isRequired,
+  playlist: PropTypes.arrayOf(PropTypes.object),
   match: PropTypes.object.isRequired,
   doFetchPlaylistTracks: PropTypes.func.isRequired,
   doCreateNewPlaylist: PropTypes.func.isRequired
+};
+
+Playlist.defaultProps = {
+  playlist: null
 };
 
 const mapStateToProps = ({ newPlaylist }) => ({
@@ -42,7 +46,7 @@ const mapStateToProps = ({ newPlaylist }) => ({
 
 const mapDispatchToProps = dispatch => ({
   doFetchPlaylistTracks: id => dispatch(fetchPlaylistTracks(id)),
-  doCreateNewPlaylist: () => dispatch(createNewPlaylist())
+  doCreateNewPlaylist: name => dispatch(createNewPlaylist(name))
 });
 
 export default connect(

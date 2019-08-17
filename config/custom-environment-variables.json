@@ -1,6 +1,5 @@
 {
   "spotify": {
-    "clientId": "SPOTIFY_CLIENT_ID",
-    "clientSecret": "SPOTIFY_CLIENT_SECRET"
+    "clientId": "SPOTIFY_CLIENT_ID"
   }
 }

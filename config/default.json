@@ -1,6 +1,6 @@
 {
   "spotify": {
     "clientId": "TODO",
-    "clientSecret": "TODO"
+    "redirectUri": "http://localhost:8080/"
   }
 }

@@ -2,7 +2,7 @@ import { empty, of, from } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { map, mergeMap, switchMap, catchError, toArray } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
-import { LOCATION_CHANGE } from 'connected-react-router';
+import { LOCATION_CHANGE, replace } from 'connected-react-router';
 
 import {
   setToken,
@@ -20,6 +20,21 @@ const spotifyScope = encodeURI(
   'user-read-private,user-read-email,playlist-read-collaborative,playlist-read-private,playlist-modify-private,playlist-modify-public'
 );
 
+const getUrl = (
+  url,
+  {
+    value: {
+      user: { token }
+    }
+  }
+) => ({
+  url,
+  method: 'GET',
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+});
+
 const parseHash = hash => {
   const parts = hash.replace('#', '').split('&');
   const found = parts.find(item => item.includes('access_token'));
@@ -36,11 +51,11 @@ const initUserEpic = (action$, state$) =>
         window.location = `https://accounts.spotify.com/authorize?client_id=${
           CONFIG.spotify.clientId
         }&redirect_uri=${encodeURI(
-          'http://localhost:8080/'
+          CONFIG.spotify.redirectUri
         )}&scope=${spotifyScope}&response_type=token&state=123`;
       } else if (
         !state.user.token &&
-        !state.playlists.content &&
+        state.playlists.content.length === 0 &&
         state.router.location.hash
       ) {
         return of(setToken(parseHash(state.router.location.hash)));
@@ -49,17 +64,17 @@ const initUserEpic = (action$, state$) =>
     })
   );
 
+const redirectEpic = action$ =>
+  action$.pipe(
+    ofType(SET_TOKEN),
+    switchMap(() => of(replace('/')))
+  );
+
 const fetchPlaylistsEpic = (action$, state$) =>
   action$.pipe(
     ofType(SET_TOKEN),
     mergeMap(() =>
-      ajax({
-        url: 'https://api.spotify.com/v1/me/playlists',
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${state$.value.user.token}`
-        }
-      }).pipe(
+      ajax(getUrl('https://api.spotify.com/v1/me/playlists', state$)).pipe(
         map(({ response }) => fetchPlaylistsFulfilled(response)),
         catchError(error => of(fetchFailed(error.xhr.response)))
       )
@@ -70,24 +85,19 @@ const fetchPlaylistTracksEpic = (action$, state$) =>
   action$.pipe(
     ofType(FETCH_PLAYLIST_TRACKS),
     mergeMap(action =>
-      ajax({
-        url: `https://api.spotify.com/v1/playlists/${action.payload}/tracks`,
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${state$.value.user.token}`
-        }
-      }).pipe(
+      ajax(
+        getUrl(
+          `https://api.spotify.com/v1/playlists/${action.payload}/tracks`,
+          state$
+        )
+      ).pipe(
         map(({ response: { items } }) => items),
         mergeMap(tracks =>
           from(tracks).pipe(
             mergeMap(({ track: { track_number: number, album: { id } } }) => {
-              return ajax({
-                url: `https://api.spotify.com/v1/albums/${id}/tracks`,
-                method: 'GET',
-                headers: {
-                  Authorization: `Bearer ${state$.value.user.token}`
-                }
-              }).pipe(
+              return ajax(
+                getUrl(`https://api.spotify.com/v1/albums/${id}/tracks`, state$)
+              ).pipe(
                 map(({ response }) => ({
                   ...response,
                   items: response.items.filter(
@@ -109,13 +119,7 @@ const fetchUserId = (action$, state$) =>
   action$.pipe(
     ofType(SET_TOKEN),
     mergeMap(() =>
-      ajax({
-        url: 'https://api.spotify.com/v1/me',
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${state$.value.user.token}`
-        }
-      }).pipe(
+      ajax(getUrl('https://api.spotify.com/v1/me', state$)).pipe(
         map(({ response }) => fetchUserIdFulfilled(response)),
         catchError(error => of(fetchFailed(error.xhr.response)))
       )
@@ -134,7 +138,7 @@ const createNewPlaylist = (action$, state$) =>
           'Content-Type': 'application/json'
         },
         body: {
-          name: 'Aliina-generated-playlist'
+          name: action$.payload
         }
       }).pipe(
         mergeMap(({ response }) => {
@@ -158,6 +162,7 @@ const createNewPlaylist = (action$, state$) =>
 
 export default combineEpics(
   initUserEpic,
+  redirectEpic,
   fetchPlaylistsEpic,
   fetchPlaylistTracksEpic,
   fetchUserId,

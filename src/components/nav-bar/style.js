@@ -7,12 +7,14 @@ import { ReactComponent as Icon } from '../../../assets/turntable.svg';
 
 export const Container = styled.div`
   align-items: center;
+  justify-content: center;
   display: flex;
+  font-size: 1.5rem;
 `;
 
 export const Logo = styled(Icon)`
   fill: ${Colors.text};
   height: 3rem;
   width: 3rem;
-  margin-right: 0.8rem;
+  margin-right: 1.5rem;
 `;

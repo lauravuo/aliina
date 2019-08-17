@@ -1,11 +1,12 @@
 export default {
   playlists: {
     loading: true,
-    content: null
+    content: []
   },
   newPlaylist: {
     originalId: null,
-    content: null
+    content: null,
+    saved: false
   },
   user: {
     token: null,
