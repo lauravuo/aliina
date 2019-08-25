@@ -4,7 +4,7 @@
   "description": "Spotify playlist generator",
   "main": "src/index.js",
   "scripts": {
-    "build": "rimraf build/ && webpack --config ./webpack/prod.js",
+    "build": "export NODE_ENV=production && rimraf build/ && webpack --config ./webpack/prod.js",
     "ci:automerge": "circleci-automerge --filter=\"^greenkeeper/\"",
     "start": "webpack-dev-server --open \"Google Chrome\" --config ./webpack/dev.js",
     "storybook": "start-storybook",
