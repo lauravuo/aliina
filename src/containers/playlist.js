@@ -38,6 +38,9 @@ const Playlist = ({
 };
 //
 Playlist.propTypes = {
+  selectedId: PropTypes.string,
+  playlistUrl: PropTypes.string,
+  saving: PropTypes.bool.isRequired,
   playlist: PropTypes.arrayOf(PropTypes.object),
   match: PropTypes.object.isRequired,
   doFetchPlaylistTracks: PropTypes.func.isRequired,
@@ -45,7 +48,9 @@ Playlist.propTypes = {
 };
 
 Playlist.defaultProps = {
-  playlist: null
+  playlist: null,
+  selectedId: null,
+  playlistUrl: null
 };
 
 const mapStateToProps = ({ newPlaylist }) => ({

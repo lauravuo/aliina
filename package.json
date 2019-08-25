@@ -22,6 +22,7 @@
     "spotify",
     "playlist"
   ],
+  "homepage": "https://lauravuo.github.io/aliina",
   "author": "lauravuo",
   "license": "MIT",
   "jest": {
