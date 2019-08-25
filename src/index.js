@@ -11,7 +11,6 @@ import NoMatch from './components/no-match';
 import Error from './containers/error';
 import Home from './containers/home';
 import Playlist from './containers/playlist';
-import Page from './containers/page';
 import { GlobalStyle } from './style';
 
 const store = configureStore();
@@ -26,7 +25,6 @@ const Root = () => (
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/playlist/:id" component={Playlist} />
-          <Route path="/page" component={Page} />
           <Route component={NoMatch} />
         </Switch>
       </div>

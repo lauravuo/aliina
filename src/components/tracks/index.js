@@ -1,19 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button } from './style';
+import { Button, PlaylistLink } from './style';
 
-const Tracks = ({ tracks, onCreatePressed }) => (
+const newTitle = `Aliina ${new Date().toLocaleDateString()}`;
+
+const Tracks = ({ tracks, onCreatePressed, playlistUrl, saving }) => (
   <div>
-    <h2>{`Aliina ${new Date().toLocaleDateString()}`}</h2>
+    <h2>{newTitle}</h2>
     {tracks.map((track, index) => (
       <div key={track.id}>
         {track && (
           <div>
-            <span>{`${index} `}</span>
+            <span>{`${index + 1} `}</span>
             <span>
-              {track.artists.map(artist => (
-                <span key={artist.id}>{`${artist.name} `}</span>
+              {track.artists.map((artist, i) => (
+                <span key={artist.id}>{`${artist.name}${
+                  i < track.artists.length - 1 ? ', ' : ': '
+                }`}</span>
               ))}
             </span>
             <span>{track.name}</span>
@@ -21,14 +25,22 @@ const Tracks = ({ tracks, onCreatePressed }) => (
         )}
       </div>
     ))}
-    <Button
-      type="button"
-      onClick={() =>
-        onCreatePressed(`Aliina ${new Date().toLocaleDateString()}`)
-      }
-    >
-      Save playlist
-    </Button>
+    {playlistUrl ? (
+      <PlaylistLink>
+        All done!
+        <a href={playlistUrl} target="_blank" rel="noopener noreferrer">
+          Show playlist in Spotify
+        </a>
+      </PlaylistLink>
+    ) : (
+      <Button
+        disabled={saving}
+        type="button"
+        onClick={() => onCreatePressed(newTitle)}
+      >
+        Save playlist
+      </Button>
+    )}
   </div>
 );
 

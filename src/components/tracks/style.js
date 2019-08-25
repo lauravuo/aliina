@@ -13,3 +13,8 @@ export const Button = styled.button`
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
 `;
+
+export const PlaylistLink = styled.div`
+  margin-top: 2rem;
+  font-size: 1.5rem;
+`;

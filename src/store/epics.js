@@ -13,7 +13,9 @@ import {
   FETCH_PLAYLIST_TRACKS,
   fetchUserIdFulfilled,
   CREATE_NEW_PLAYLIST,
-  createNewPlaylistFulfilled
+  createNewPlaylistFulfilled,
+  CREATE_NEW_PLAYLIST_FULFILLED,
+  savePlaylistComplete
 } from './actions';
 
 const spotifyScope = encodeURI(
@@ -129,7 +131,7 @@ const fetchUserId = (action$, state$) =>
 const createNewPlaylist = (action$, state$) =>
   action$.pipe(
     ofType(CREATE_NEW_PLAYLIST),
-    mergeMap(() =>
+    mergeMap(({ payload }) =>
       ajax({
         url: `https://api.spotify.com/v1/users/${state$.value.user.id}/playlists`,
         method: 'POST',
@@ -138,23 +140,31 @@ const createNewPlaylist = (action$, state$) =>
           'Content-Type': 'application/json'
         },
         body: {
-          name: action$.payload
+          name: payload
         }
       }).pipe(
-        mergeMap(({ response }) => {
-          return ajax({
-            url: `https://api.spotify.com/v1/playlists/${response.id}/tracks`,
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${state$.value.user.token}`,
-              'Content-Type': 'application/json'
-            },
-            body: {
-              uris: state$.value.newPlaylist.content.map(item => item.uri)
-            }
-          });
-        }),
-        map(() => createNewPlaylistFulfilled()),
+        map(({ response }) => createNewPlaylistFulfilled(response.id)),
+        catchError(error => of(fetchFailed(error.xhr.response)))
+      )
+    )
+  );
+
+const addTracksToPlaylist = (action$, state$) =>
+  action$.pipe(
+    ofType(CREATE_NEW_PLAYLIST_FULFILLED),
+    mergeMap(() =>
+      ajax({
+        url: `https://api.spotify.com/v1/playlists/${state$.value.newPlaylist.newId}/tracks`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${state$.value.user.token}`,
+          'Content-Type': 'application/json'
+        },
+        body: {
+          uris: state$.value.newPlaylist.content.map(item => item.uri)
+        }
+      }).pipe(
+        map(() => savePlaylistComplete()),
         catchError(error => of(fetchFailed(error.xhr.response)))
       )
     )
@@ -166,5 +176,6 @@ export default combineEpics(
   fetchPlaylistsEpic,
   fetchPlaylistTracksEpic,
   fetchUserId,
-  createNewPlaylist
+  createNewPlaylist,
+  addTracksToPlaylist
 );

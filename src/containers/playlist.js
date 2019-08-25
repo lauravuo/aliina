@@ -8,27 +8,35 @@ import { fetchPlaylistTracks, createNewPlaylist } from '../store/actions';
 
 // match.params.id
 const Playlist = ({
+  selectedId,
   playlist,
+  playlistUrl,
+  saving,
   match,
   doFetchPlaylistTracks,
   doCreateNewPlaylist
 }) => {
   useEffect(() => {
-    if (!playlist) {
+    if (!playlist || selectedId !== match.params.id) {
       doFetchPlaylistTracks(match.params.id);
     }
   });
   return (
     <div>
       {playlist ? (
-        <Tracks tracks={playlist} onCreatePressed={doCreateNewPlaylist} />
+        <Tracks
+          tracks={playlist}
+          onCreatePressed={doCreateNewPlaylist}
+          playlistUrl={playlistUrl}
+          saving={saving}
+        />
       ) : (
         <Spinner />
       )}
     </div>
   );
 };
-
+//
 Playlist.propTypes = {
   playlist: PropTypes.arrayOf(PropTypes.object),
   match: PropTypes.object.isRequired,
@@ -41,7 +49,12 @@ Playlist.defaultProps = {
 };
 
 const mapStateToProps = ({ newPlaylist }) => ({
-  playlist: newPlaylist.content
+  selectedId: newPlaylist.originalId,
+  playlist: newPlaylist.content,
+  playlistUrl: newPlaylist.newId
+    ? `https://open.spotify.com/user/spotify/playlist/${newPlaylist.newId}`
+    : null,
+  saving: newPlaylist.saving
 });
 
 const mapDispatchToProps = dispatch => ({

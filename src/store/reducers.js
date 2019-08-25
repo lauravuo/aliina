@@ -7,7 +7,9 @@ import {
   FETCH_PLAYLIST_TRACKS_FULFILLED,
   FETCH_USER_ID_FULFILLED,
   FETCH_PLAYLIST_TRACKS,
-  CREATE_NEW_PLAYLIST_FULFILLED
+  CREATE_NEW_PLAYLIST_FULFILLED,
+  CREATE_NEW_PLAYLIST,
+  SAVE_PLAYLIST_COMPLETE
 } from './actions';
 import initialState from './initial-state';
 
@@ -38,6 +40,7 @@ export const newPlaylist = (state = initialState.newPlaylist, action) => {
   switch (action.type) {
     case FETCH_PLAYLIST_TRACKS:
       return {
+        ...initialState.newPlaylist,
         originalId: action.payload
       };
     case FETCH_PLAYLIST_TRACKS_FULFILLED: {
@@ -52,12 +55,22 @@ export const newPlaylist = (state = initialState.newPlaylist, action) => {
         content: selected
       };
     }
+    case CREATE_NEW_PLAYLIST:
+      return {
+        ...state,
+        saving: true
+      };
     case CREATE_NEW_PLAYLIST_FULFILLED: {
       return {
         ...state,
-        saved: true
+        newId: action.payload
       };
     }
+    case SAVE_PLAYLIST_COMPLETE:
+      return {
+        ...state,
+        saving: false
+      };
     default:
       return state;
   }

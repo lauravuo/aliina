@@ -54,3 +54,10 @@ export const createNewPlaylistFulfilled = payload => ({
   type: CREATE_NEW_PLAYLIST_FULFILLED,
   payload
 });
+
+export const SAVE_PLAYLIST_COMPLETE = 'SAVE_PLAYLIST_COMPLETE';
+
+export const savePlaylistComplete = payload => ({
+  type: SAVE_PLAYLIST_COMPLETE,
+  payload
+});

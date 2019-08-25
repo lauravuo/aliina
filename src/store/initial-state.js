@@ -5,8 +5,9 @@ export default {
   },
   newPlaylist: {
     originalId: null,
+    newId: null,
     content: null,
-    saved: false
+    saving: false
   },
   user: {
     token: null,

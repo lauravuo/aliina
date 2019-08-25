@@ -16,4 +16,8 @@ export const GlobalStyle = createGlobalStyle`
     color: ${Colors.text};
     text-decoration: none;
   }
+  #app {
+    margin: auto;
+    max-width: 50rem;
+  }
 `;
