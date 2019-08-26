@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "export NODE_ENV=production && rimraf build/ && webpack --config ./webpack/prod.js",
+    "deploy": "npm run build && git checkout gh-pages && git rm *.js && cp ./build/* . && git add *.js && git commit -a -m 'Update bundle'",
     "ci:automerge": "circleci-automerge --filter=\"^greenkeeper/\"",
     "start": "webpack-dev-server --open \"Google Chrome\" --config ./webpack/dev.js",
     "storybook": "start-storybook",

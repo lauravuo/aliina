@@ -1,8 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const Colors = {
-  text: 'purple',
-  background: 'black'
+  text: 'lightgray',
+  background: '#b33c00'
 };
 
 export const GlobalStyle = createGlobalStyle`
