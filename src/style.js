@@ -1,8 +1,9 @@
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 export const Colors = {
   text: 'lightgray',
-  background: '#b33c00'
+  background: '#b33c00',
+  secondaryBg: 'black'
 };
 
 export const GlobalStyle = createGlobalStyle`
@@ -20,4 +21,11 @@ export const GlobalStyle = createGlobalStyle`
     margin: auto;
     max-width: 50rem;
   }
+`;
+
+export const SecondaryLabel = styled.p`
+  background-color: ${Colors.secondaryBg};
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
 `;

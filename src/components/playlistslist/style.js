@@ -4,7 +4,6 @@ import { Colors } from '../../style';
 
 export const Container = styled.div`
   font-size: 1.2rem;
-  margin: 1rem;
 `;
 
 export const Row = styled.div`

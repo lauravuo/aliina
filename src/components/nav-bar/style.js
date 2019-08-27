@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 
 import { Colors } from '../../style';
-import { ReactComponent as Icon } from '../../../assets/turntable.svg';
+import { ReactComponent as Icon } from '../../../assets/aliina.svg';
 
 export const Container = styled.div`
   align-items: center;
@@ -14,7 +14,11 @@ export const Container = styled.div`
 
 export const Logo = styled(Icon)`
   fill: ${Colors.text};
-  height: 3rem;
-  width: 3rem;
+  height: 20rem;
+  width: 20rem;
   margin-right: 1.5rem;
+`;
+
+export const Description = styled.p`
+  text-align: center;
 `;
