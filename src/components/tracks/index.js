@@ -27,7 +27,7 @@ const Tracks = ({ tracks, onCreatePressed, playlistUrl, saving }) => (
     ))}
     {playlistUrl ? (
       <PlaylistLink>
-        All done!
+        All done!{' '}
         <a href={playlistUrl} target="_blank" rel="noopener noreferrer">
           Show playlist in Spotify
         </a>

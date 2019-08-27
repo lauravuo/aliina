@@ -15,6 +15,6 @@ export const Button = styled.button`
 `;
 
 export const PlaylistLink = styled.div`
-  margin-top: 2rem;
+  margin: 2rem 0;
   font-size: 1.5rem;
 `;

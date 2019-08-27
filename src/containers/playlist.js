@@ -17,7 +17,7 @@ const Playlist = ({
   doCreateNewPlaylist
 }) => {
   useEffect(() => {
-    if (!playlist || selectedId !== match.params.id) {
+    if (selectedId !== match.params.id) {
       doFetchPlaylistTracks(match.params.id);
     }
   });

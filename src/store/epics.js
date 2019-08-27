@@ -1,6 +1,13 @@
 import { empty, of, from } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
-import { map, mergeMap, switchMap, catchError, toArray } from 'rxjs/operators';
+import {
+  map,
+  mergeMap,
+  switchMap,
+  catchError,
+  toArray,
+  bufferCount
+} from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
 import { LOCATION_CHANGE, replace } from 'connected-react-router';
 
@@ -18,6 +25,7 @@ import {
   savePlaylistComplete
 } from './actions';
 
+const spotifyMaxAlbumsFetch = 20;
 const spotifyScope = encodeURI(
   'user-read-private,user-read-email,playlist-read-collaborative,playlist-read-private,playlist-modify-private,playlist-modify-public'
 );
@@ -96,22 +104,46 @@ const fetchPlaylistTracksEpic = (action$, state$) =>
         map(({ response: { items } }) => items),
         mergeMap(tracks =>
           from(tracks).pipe(
-            mergeMap(({ track: { track_number: number, album: { id } } }) => {
-              return ajax(
-                getUrl(`https://api.spotify.com/v1/albums/${id}/tracks`, state$)
-              ).pipe(
-                map(({ response }) => ({
-                  ...response,
-                  items: response.items.filter(
-                    item => item.track_number !== number
-                  )
-                }))
+            bufferCount(spotifyMaxAlbumsFetch),
+            mergeMap(items => {
+              const ids = items.reduce(
+                (
+                  result,
+                  {
+                    track: {
+                      track_number: number,
+                      album: { id }
+                    }
+                  }
+                ) => ({
+                  query: result.query + (result.query !== '' ? ',' : '') + id,
+                  trackNumbers: { ...result.trackNumbers, [id]: number }
+                }),
+                { query: '', trackNumbers: {} }
               );
-            }),
-            toArray()
+              return ajax(
+                getUrl(
+                  `https://api.spotify.com/v1/albums?ids=${ids.query}`,
+                  state$
+                )
+              ).pipe(
+                map(({ response }) => {
+                  return response.albums.map(({ id, tracks: albumTracks }) => ({
+                    items: albumTracks.items.filter(
+                      item => item.track_number !== ids.trackNumbers[id]
+                    )
+                  }));
+                })
+              );
+            })
           )
         ),
-        map(responses => fetchPlaylistTracksFulfilled(responses)),
+        toArray(),
+        map(responses =>
+          fetchPlaylistTracksFulfilled(
+            responses.reduce((res, item) => [...res, ...item], [])
+          )
+        ),
         catchError(error => of(fetchFailed(error.xhr.response)))
       )
     )
