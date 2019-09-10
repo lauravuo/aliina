@@ -7,7 +7,7 @@
     "build": "export NODE_ENV=production && rimraf build/ && webpack --config ./webpack/prod.js",
     "deploy": "npm run build && git checkout gh-pages && git rm *.js && cp ./build/* . && git add *.js && git commit -a -m '[ci skip] Update bundle' && git push",
     "ci:automerge": "circleci-automerge --filter=\"^greenkeeper/\"",
-    "release": "npm version minor",
+    "release": "npm version minor && git push --tags",
     "start": "webpack-dev-server --open \"Google Chrome\" --config ./webpack/dev.js",
     "storybook": "start-storybook",
     "test": "npm run test:lint && npm run test:unit",
