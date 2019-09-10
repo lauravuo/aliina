@@ -2,11 +2,13 @@
 
 exports[`Storyshots PlaylistsList default 1`] = `
 <div>
-  <p>
+  <p
+    className="style__SecondaryLabel-sc-1fr9lv-0 enqLyf"
+  >
      Select playlist below:
   </p>
   <div
-    className="style__Container-ptzrf3-0 jWBbga"
+    className="style__Container-ptzrf3-0 kRpFmw"
   />
 </div>
 `;

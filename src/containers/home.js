@@ -4,25 +4,23 @@ import PropTypes from 'prop-types';
 
 import Spinner from '../components/spinner';
 import PlaylistsList from '../components/playlistslist';
-import { buttonPress } from '../store/actions';
 
-const Home = ({ playlists }) => (
-  <div>{playlists ? <PlaylistsList lists={playlists} /> : <Spinner />}</div>
+const Home = ({ playlists, loggedIn }) => (
+  <div>
+    {loggedIn && (
+      <div>{playlists ? <PlaylistsList lists={playlists} /> : <Spinner />}</div>
+    )}
+  </div>
 );
 
 Home.propTypes = {
-  playlists: PropTypes.arrayOf(PropTypes.object).isRequired
+  playlists: PropTypes.arrayOf(PropTypes.object).isRequired,
+  loggedIn: PropTypes.bool.isRequired
 };
 
-const mapStateToProps = ({ playlists: { content } }) => ({
-  playlists: content
+const mapStateToProps = ({ playlists: { content }, user }) => ({
+  playlists: content,
+  loggedIn: user.token
 });
 
-const mapDispatchToProps = dispatch => ({
-  doButtonPress: () => dispatch(buttonPress())
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);
+export default connect(mapStateToProps)(Home);

@@ -1,9 +1,3 @@
-export const BUTTON_PRESSED = 'BUTTON_PRESSED';
-
-export const buttonPress = () => ({
-  type: BUTTON_PRESSED
-});
-
 export const SET_TOKEN = 'SET_TOKEN';
 
 export const setToken = token => ({ type: SET_TOKEN, payload: token });
