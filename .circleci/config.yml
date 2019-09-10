@@ -45,9 +45,11 @@ jobs:
       - restore_cache:
           keys:
             - npm-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run: git config --global user.email "robot@example.com"
+      - run: git config --global user.name "CircleCI Robot"
       - run: npm ci
       - run:
-          name: Merge greenkeeper branch
+          name: Deploy page
           command: npm run deploy
 
 workflows:
@@ -61,7 +63,11 @@ workflows:
           filters:
             branches:
               only: /greenkeeper\S*/
+  deploy:
+    jobs:
       - deploy:
           filters:
             tags:
               only: /^v.*/
+            branches:
+              ignore: /.*/
