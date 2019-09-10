@@ -23,7 +23,7 @@ const Playlist = ({
   });
   return (
     <div>
-      {playlist ? (
+      {!saving && playlist ? (
         <Tracks
           tracks={playlist}
           onCreatePressed={doCreateNewPlaylist}
