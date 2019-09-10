@@ -40,7 +40,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - $SSH_KEY_FINGERPRINT
+            - 08:55:09:f8:de:cc:e3:eb:3e:b3:74:31:58:39:26:83
       - checkout
       - restore_cache:
           keys:
