@@ -2,6 +2,8 @@
 
 [![CircleCI](https://circleci.com/gh/lauravuo/aliina.svg?style=svg)](https://circleci.com/gh/lauravuo/aliina)
 
+![Aliina logo](./docs/aliina.png)
+
 [Spotify playlist creator app](https://lauravuo.github.io/aliina)
 
 Aliina creates a new playlist of random songs based on some of your existing playlist. It fetches the album information of each track in the given playlist and selects a random song from the same album to the new list.
