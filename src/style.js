@@ -24,8 +24,10 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export const SecondaryLabel = styled.p`
-  background-color: ${Colors.secondaryBg};
   margin: 0;
-  padding: 1rem;
+  max-width: 80%;
+  margin-left: 10%;
+  color: ${Colors.secondaryBg};
+  padding-bottom: 0.5rem;
   text-align: center;
 `;

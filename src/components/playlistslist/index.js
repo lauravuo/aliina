@@ -7,7 +7,7 @@ import { SecondaryLabel } from '../../style';
 
 const PlaylistsList = ({ lists }) => (
   <div>
-    <SecondaryLabel> Select playlist below:</SecondaryLabel>
+    <SecondaryLabel> Select playlist:</SecondaryLabel>
     <Container>
       {lists.map(list => (
         <Link key={list.id} to={`/playlist/${list.id}`}>
@@ -15,6 +15,9 @@ const PlaylistsList = ({ lists }) => (
         </Link>
       ))}
     </Container>
+    {lists.length === 20 && (
+      <SecondaryLabel>Showing top 20 lists.</SecondaryLabel>
+    )}
   </div>
 );
 

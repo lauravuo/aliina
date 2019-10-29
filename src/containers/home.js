@@ -7,8 +7,10 @@ import PlaylistsList from '../components/playlistslist';
 
 const Home = ({ playlists, loggedIn }) => (
   <div>
-    {loggedIn && (
+    {loggedIn ? (
       <div>{playlists ? <PlaylistsList lists={playlists} /> : <Spinner />}</div>
+    ) : (
+      <Spinner />
     )}
   </div>
 );
@@ -20,7 +22,7 @@ Home.propTypes = {
 
 const mapStateToProps = ({ playlists: { content }, user }) => ({
   playlists: content,
-  loggedIn: user.token
+  loggedIn: user.token && user.token.length > 0
 });
 
 export default connect(mapStateToProps)(Home);

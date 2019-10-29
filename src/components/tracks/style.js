@@ -17,6 +17,7 @@ export const Button = styled.button`
 export const PlaylistLink = styled.div`
   margin: 2rem 0;
   font-size: 1.5rem;
+  text-align: center;
   a {
     color: black;
   }

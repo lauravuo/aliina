@@ -18,5 +18,7 @@ export const Logo = styled(Icon)`
 `;
 
 export const Description = styled.p`
+  max-width: 80%;
+  margin-left: 10%;
   text-align: center;
 `;
