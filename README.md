@@ -14,3 +14,15 @@ Current limitations:
 - Only 100 first songs in the list are processed
 - If no other songs are found in the song album, the song is skipped
 - Playlist cannot be renamed
+
+## Development environment setup
+
+1. [Register](https://developer.spotify.com/dashboard/login) your Spotify app and define `SPOTIFY_CLIENT_ID` environment variable.
+
+1. Launch app locally:
+   ```
+   nvm use
+   npm install
+   npm start
+   ```
+   Open browser at http://localhost:8080
