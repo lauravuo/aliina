@@ -67,7 +67,4 @@ const mapDispatchToProps = dispatch => ({
   doCreateNewPlaylist: name => dispatch(createNewPlaylist(name))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Playlist);
+export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
