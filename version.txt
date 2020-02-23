@@ -1,2 +1,2 @@
-aliina@1.5.0
-Build date: Tue Oct 29 2019 17:29:51 GMT+0000 (Coordinated Universal Time)
+aliina@1.6.0
+Build date: Sun Feb 23 2020 19:22:56 GMT+0000 (Coordinated Universal Time)
