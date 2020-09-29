@@ -50,11 +50,11 @@ Tracks.propTypes = {
   tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
   onCreatePressed: PropTypes.func.isRequired,
   saving: PropTypes.bool.isRequired,
-  playlistUrl: PropTypes.string
+  playlistUrl: PropTypes.string,
 };
 
 Tracks.defaultProps = {
-  playlistUrl: null
+  playlistUrl: null,
 };
 
 export default Tracks;

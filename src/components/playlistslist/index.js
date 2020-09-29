@@ -9,7 +9,7 @@ const PlaylistsList = ({ lists }) => (
   <div>
     <SecondaryLabel> Select playlist:</SecondaryLabel>
     <Container>
-      {lists.map(list => (
+      {lists.map((list) => (
         <Link key={list.id} to={`/playlist/${list.id}`}>
           <Row>{list.name}</Row>
         </Link>
@@ -22,7 +22,7 @@ const PlaylistsList = ({ lists }) => (
 );
 
 PlaylistsList.propTypes = {
-  lists: PropTypes.arrayOf(PropTypes.object).isRequired
+  lists: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default PlaylistsList;

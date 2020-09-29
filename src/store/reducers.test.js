@@ -8,7 +8,7 @@ describe('user reducer', () => {
   });
   it('should set token', () => {
     expect(reducer(undefined, setToken('token'))).toEqual({
-      token: 'token'
+      token: 'token',
     });
   });
 });

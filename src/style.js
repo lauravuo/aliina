@@ -3,7 +3,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 export const Colors = {
   text: 'lightgray',
   background: '#b33c00',
-  secondaryBg: 'black'
+  secondaryBg: 'black',
 };
 
 export const GlobalStyle = createGlobalStyle`
