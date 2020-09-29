@@ -9,7 +9,7 @@ import rootEpic from './epics';
 
 const composeEnhancers = composeWithDevTools({});
 export const history = createBrowserHistory({
-  basename: CONFIG.basename
+  basename: CONFIG.basename,
 });
 
 const epicMiddleware = createEpicMiddleware();

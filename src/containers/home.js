@@ -17,12 +17,12 @@ const Home = ({ playlists, loggedIn }) => (
 
 Home.propTypes = {
   playlists: PropTypes.arrayOf(PropTypes.object).isRequired,
-  loggedIn: PropTypes.bool.isRequired
+  loggedIn: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = ({ playlists: { content }, user }) => ({
   playlists: content,
-  loggedIn: user.token && user.token.length > 0
+  loggedIn: user.token && user.token.length > 0,
 });
 
 export default connect(mapStateToProps)(Home);

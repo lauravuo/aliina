@@ -14,7 +14,7 @@ const Playlist = ({
   saving,
   match,
   doFetchPlaylistTracks,
-  doCreateNewPlaylist
+  doCreateNewPlaylist,
 }) => {
   useEffect(() => {
     if (selectedId !== match.params.id) {
@@ -44,13 +44,13 @@ Playlist.propTypes = {
   playlist: PropTypes.arrayOf(PropTypes.object),
   match: PropTypes.object.isRequired,
   doFetchPlaylistTracks: PropTypes.func.isRequired,
-  doCreateNewPlaylist: PropTypes.func.isRequired
+  doCreateNewPlaylist: PropTypes.func.isRequired,
 };
 
 Playlist.defaultProps = {
   playlist: null,
   selectedId: null,
-  playlistUrl: null
+  playlistUrl: null,
 };
 
 const mapStateToProps = ({ newPlaylist }) => ({
@@ -59,12 +59,12 @@ const mapStateToProps = ({ newPlaylist }) => ({
   playlistUrl: newPlaylist.newId
     ? `https://open.spotify.com/user/spotify/playlist/${newPlaylist.newId}`
     : null,
-  saving: newPlaylist.saving
+  saving: newPlaylist.saving,
 });
 
-const mapDispatchToProps = dispatch => ({
-  doFetchPlaylistTracks: id => dispatch(fetchPlaylistTracks(id)),
-  doCreateNewPlaylist: name => dispatch(createNewPlaylist(name))
+const mapDispatchToProps = (dispatch) => ({
+  doFetchPlaylistTracks: (id) => dispatch(fetchPlaylistTracks(id)),
+  doCreateNewPlaylist: (name) => dispatch(createNewPlaylist(name)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);

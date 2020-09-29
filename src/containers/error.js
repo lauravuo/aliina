@@ -11,15 +11,15 @@ const Error = ({ error }) => (
 );
 
 Error.propTypes = {
-  error: PropTypes.object
+  error: PropTypes.object,
 };
 
 Error.defaultProps = {
-  error: null
+  error: null,
 };
 
 const mapStateToProps = ({ error }) => ({
-  error
+  error,
 });
 
 export default connect(mapStateToProps)(Error);

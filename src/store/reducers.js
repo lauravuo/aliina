@@ -9,7 +9,7 @@ import {
   FETCH_PLAYLIST_TRACKS,
   CREATE_NEW_PLAYLIST_FULFILLED,
   CREATE_NEW_PLAYLIST,
-  SAVE_PLAYLIST_COMPLETE
+  SAVE_PLAYLIST_COMPLETE,
 } from './actions';
 import initialState from './initial-state';
 
@@ -29,7 +29,7 @@ export const playlists = (state = initialState.playlists, action) => {
     case FETCH_PLAYLISTS_FULFILLED:
       return {
         ...state,
-        content: action.payload.items.map(({ id, name }) => ({ id, name }))
+        content: action.payload.items.map(({ id, name }) => ({ id, name })),
       };
     default:
       return state;
@@ -41,35 +41,35 @@ export const newPlaylist = (state = initialState.newPlaylist, action) => {
     case FETCH_PLAYLIST_TRACKS:
       return {
         ...initialState.newPlaylist,
-        originalId: action.payload
+        originalId: action.payload,
       };
     case FETCH_PLAYLIST_TRACKS_FULFILLED: {
       const selected = action.payload
-        .filter(item => item.items.length > 0)
-        .map(result => {
+        .filter((item) => item.items.length > 0)
+        .map((result) => {
           const index = Math.floor(Math.random() * result.items.length);
           return result.items[index];
         });
       return {
         ...state,
-        content: selected
+        content: selected,
       };
     }
     case CREATE_NEW_PLAYLIST:
       return {
         ...state,
-        saving: true
+        saving: true,
       };
     case CREATE_NEW_PLAYLIST_FULFILLED: {
       return {
         ...state,
-        newId: action.payload
+        newId: action.payload,
       };
     }
     case SAVE_PLAYLIST_COMPLETE:
       return {
         ...state,
-        saving: false
+        saving: false,
       };
     default:
       return state;
@@ -83,11 +83,11 @@ export const error = (state = initialState.error, action) => {
   }
 };
 
-export default history =>
+export default (history) =>
   combineReducers({
     router: connectRouter(history),
     user,
     playlists,
     newPlaylist,
-    error
+    error,
   });
